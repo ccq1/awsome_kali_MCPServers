@@ -7,6 +7,7 @@ from src.kali_mcps.objdump.actions import file_headers_action, disassemble_actio
 from src.kali_mcps.strings.actions import basic_strings_action, min_length_strings_action, offset_strings_action, encoding_strings_action
 from src.kali_mcps.wireshark.actions import capture_live_action, analyze_pcap_action, extract_http_action, protocol_hierarchy_action, conversation_statistics_action, expert_info_action
 from src.kali_mcps.traceroute.actions import traceroute_action
+from src.kali_mcps.git.actions import git_status_action, git_commit_action
 mcp = FastMCP("kali-tools")
 
 
@@ -352,6 +353,33 @@ def traceroute(target: str):
     """
     return traceroute_action(target)
 # traceroute end
+
+# git start
+@mcp.tool()
+def git_status():
+    """Show the current git status for the repository."""
+
+    stdout, stderr = git_status_action()
+    if stderr:
+        return f"STDERR:\n{stderr}\nSTDOUT:\n{stdout}" if stdout else f"STDERR:\n{stderr}"
+    return stdout
+
+
+class GitCommitParams(BaseModel):
+    message: str = Field(..., description="Commit message to use for git commit")
+    add_all: bool = Field(default=True, description="Whether to run git add -A before committing")
+
+
+@mcp.tool()
+def git_commit(params: GitCommitParams):
+    """Create a git commit with the provided message (optionally staging all changes first)."""
+
+    stdout, stderr = git_commit_action(params.message, params.add_all)
+    if stderr:
+        return f"STDERR:\n{stderr}\nSTDOUT:\n{stdout}" if stdout else f"STDERR:\n{stderr}"
+    return stdout
+
+# git end
 
 # run server, using stdio transport
 if __name__ == "__main__":

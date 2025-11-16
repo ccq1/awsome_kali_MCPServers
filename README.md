@@ -89,6 +89,10 @@ Configurable memory limit (default: 2GB), CPU limit (default: 1 core), network m
 Supports bidirectional file copying between the host and the container.
 Automatically cleans up container resources.
 
+### 7. Repository Utilities (Git)
+- `git_status`: Quickly review the current repository state before committing.
+- `git_commit`: Stage (optional) and commit your work with a custom message directly from the MCP client.
+
 
 ## TODO
 - [ ] **Docker Sandbox Support**: Add containerized environments for safe testing and execution.

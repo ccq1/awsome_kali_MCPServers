@@ -137,13 +137,13 @@ mcp:
         functions:
           - capture_live
             description: "Perform a capture live scan using wireshark."
-            parameters: 
+            parameters:
               interface:
                 type: str
                 description: "The network interface to capture live traffic on."
               duration:
                 type: int
-                description: "The duration of the capture in seconds."  
+                description: "The duration of the capture in seconds."
           - analyze_pcap
             description: "Perform an analyze pcap scan using wireshark."
             parameters:
@@ -173,4 +173,19 @@ mcp:
             parameters:
               pcap_file:
                 type: str
-                description: "The pcap file to analyze."  
+                description: "The pcap file to analyze."
+
+    - git:
+        functions:
+          - git_status
+            description: "Show the current git status for the repository."
+            parameters: {}
+          - git_commit
+            description: "Create a git commit, optionally staging all changes first."
+            parameters:
+              message:
+                type: str
+                description: "Commit message to use."
+              add_all:
+                type: bool
+                description: "Whether to run git add -A before committing."
